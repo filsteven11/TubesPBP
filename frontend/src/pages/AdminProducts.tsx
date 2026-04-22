@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { api } from "../api/axios";
+import { api } from "../api/api";
 
 interface Product {
   id: number;
@@ -54,13 +54,9 @@ export default function AdminProducts() {
       };
 
       if (editId) {
-        await api.put(`/products/${editId}`, payload, {
-          headers: { Authorization: `Bearer ${authContext.token}` },
-        });
+        await api.put(`/products/${editId}`, payload);
       } else {
-        await api.post("/products", payload, {
-          headers: { Authorization: `Bearer ${authContext.token}` },
-        });
+        await api.post("/products", payload);
       }
 
       fetchData();
@@ -88,9 +84,7 @@ export default function AdminProducts() {
     if (!confirm("Are you sure?")) return;
 
     try {
-      await api.delete(`/products/${id}`, {
-        headers: { Authorization: `Bearer ${authContext.token}` },
-      });
+      await api.delete(`/products/${id}`);
       fetchData();
     } catch (err) {
       setError("Failed to delete product");

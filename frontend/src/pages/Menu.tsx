@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../api/axios";
+import { api } from "../api/api";
 import ProductCard from "../components/ProductCard";
 import CartSidebar from "../components/CartSidebar";
 import { CartProvider } from "../context/CartContext";
@@ -19,7 +19,15 @@ function MenuContent() {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    api.get("/products").then((res) => setProducts(res.data));
+    const fetchProducts = async () => {
+      try {
+        const res = await api.get("/products");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+    fetchProducts();
   }, []);
 
   return (

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import { api } from "../api/axios";
+import { api } from "../api/api";
 
 interface CartItem {
   id: number;

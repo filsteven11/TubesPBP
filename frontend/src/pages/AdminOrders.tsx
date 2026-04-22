@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { api } from "../api/axios";
+import { api } from "../api/api";
 
 interface OrderItem {
   id: number;
@@ -31,9 +31,7 @@ export default function AdminOrders() {
     if (!authContext?.token) return;
 
     try {
-      const res = await api.get("/orders", {
-        headers: { Authorization: `Bearer ${authContext.token}` },
-      });
+      const res = await api.get("/orders");
       setOrders(res.data);
       
       // Initialize status selector with current statuses
@@ -51,13 +49,7 @@ export default function AdminOrders() {
     if (!authContext?.token) return;
 
     try {
-      await api.put(
-        `/orders/${orderId}`,
-        { status: selectedStatus[orderId] },
-        {
-          headers: { Authorization: `Bearer ${authContext.token}` },
-        }
-      );
+      await api.put(`/orders/${orderId}`, { status: selectedStatus[orderId] });
 
       fetchOrders();
     } catch (err) {

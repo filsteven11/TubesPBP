@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api/axios";
+import { api } from "../api/api";
 
 interface Product {
   id: number;
@@ -10,10 +10,23 @@ interface Product {
 
 export const useFetch = (url: string) => {
   const [data, setData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api.get(url).then(res => setData(res.data));
+    const fetchData = async () => {
+      try {
+        const res = await api.get(url);
+        setData(res.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [url]);
 
-  return data;
+  return { data, loading, error };
 };
