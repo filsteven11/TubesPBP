@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("admin@mail.com");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -65,11 +65,7 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="login-info">
-          <p>Demo Credentials:</p>
-          <p>Email: admin@mail.com</p>
-          <p>Password: admin123</p>
-        </div>
+
       </div>
     </div>
   );
