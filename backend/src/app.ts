@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/api", routes);
 
-sequelize.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
   console.log("DB Connected");
 });
 

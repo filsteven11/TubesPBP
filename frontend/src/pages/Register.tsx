@@ -1,33 +1,26 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { api } from "../api/api";
 
-export default function Login() {
+export default function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
 
-  if (!authContext) {
-    return <div>Loading...</div>;
-  }
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const user = await authContext.login(email, password);
-      if (user.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/menu");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      await api.post("/auth/register", { name, email, password });
+      alert("Registration successful! Please login.");
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.response?.data?.msg || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -36,8 +29,21 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1>🍔 McDonald's Login</h1>
-        <form onSubmit={handleLogin}>
+        <h1>🍟 Register McDonald's</h1>
+        <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="name">Name:</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              disabled={loading}
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -47,6 +53,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               disabled={loading}
+              required
             />
           </div>
 
@@ -57,21 +64,22 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
+              placeholder="Create a password"
               disabled={loading}
+              required
             />
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p>Don't have an account? <Link to="/register" style={{ color: '#cc0000', fontWeight: 'bold' }}>Register here</Link></p>
-          <p style={{ marginTop: '10px' }}><Link to="/menu" style={{ color: '#666' }}>Continue as Guest</Link></p>
+          <p>Already have an account? <Link to="/login" style={{ color: '#cc0000', fontWeight: 'bold' }}>Login here</Link></p>
+          <p style={{ marginTop: '10px' }}><Link to="/" style={{ color: '#666' }}>Continue as Guest</Link></p>
         </div>
       </div>
     </div>

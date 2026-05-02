@@ -31,9 +31,16 @@ function MenuContent() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="page-wrapper">
       <nav className="menu-navbar">
-        <h1 className="menu-title">🍔 McDonald's Menu</h1>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '15px' }}>
+          <h1 className="menu-title">🍔 McDonald's Menu</h1>
+          <span style={{ fontSize: '16px', fontWeight: '500', color: '#ffcc00' }}>
+            {authContext?.isAuthenticated && authContext.user 
+              ? `Welcome, ${authContext.user.name || authContext.user.email.split('@')[0]}` 
+              : "Welcome"}
+          </span>
+        </div>
         <div className="menu-nav-links">
           {authContext?.isAdmin && (
             <button
@@ -54,25 +61,36 @@ function MenuContent() {
               Logout
             </button>
           ) : (
-            <button
-              className="btn-login"
-              onClick={() => navigate("/login")}
-            >
-              Admin Login
-            </button>
+            <>
+              <button
+                className="btn-login"
+                onClick={() => navigate("/login")}
+                style={{ marginRight: '10px' }}
+              >
+                Login
+              </button>
+              <button
+                className="btn-admin"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+            </>
           )}
         </div>
       </nav>
 
-      <div className="menu">
-        <div className="grid">
-          {products.map((p: Product) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+      <div className="container">
+        <div className="menu">
+          <div className="grid">
+            {products.map((p: Product) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <CartSidebar />
+        <CartSidebar />
+      </div>
     </div>
   );
 }

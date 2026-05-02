@@ -4,12 +4,13 @@ export interface User {
   id: number;
   email: string;
   role: "admin" | "customer";
+  name?: string;
 }
 
 export interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -47,10 +48,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await response.json();
       setToken(data.token);
-      setUser(data.user || { id: 1, email, role: "admin" });
+      setUser(data.user);
       
       localStorage.setItem("authToken", data.token);
-      localStorage.setItem("authUser", JSON.stringify(data.user || { id: 1, email, role: "admin" }));
+      localStorage.setItem("authUser", JSON.stringify(data.user));
+      return data.user;
     } catch (error) {
       console.error("Login error:", error);
       throw error;

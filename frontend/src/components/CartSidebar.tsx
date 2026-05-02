@@ -37,18 +37,27 @@ export default function CartSidebar() {
 
   return (
     <div className="cart">
-      <h2>Cart</h2>
+      <h2>Your Cart</h2>
 
-      {cart.map((item: CartItem, i: number) => (
-        <div key={i} className="cart-item">
-          {item.name}
-          <button onClick={() => removeFromCart(i)}>x</button>
-        </div>
-      ))}
+      <div className="cart-items-container">
+        {cart.map((item: CartItem, i: number) => (
+          <div key={i} className="cart-item">
+            <span className="cart-item-name">{item.name}</span>
+            <span className="cart-item-price">Rp {item.price}</span>
+            <button className="cart-item-remove" onClick={() => removeFromCart(i)}>✖</button>
+          </div>
+        ))}
+      </div>
 
-      <h3>Total: Rp {total}</h3>
+      <div className="cart-total">
+        <span>Total:</span>
+        <span>Rp {total}</span>
+      </div>
 
-      <button onClick={checkout}>Checkout</button>
+      <button className="btn-checkout" onClick={checkout}>Checkout</button>
+      {cart.length > 0 && (
+        <button className="btn-reset" onClick={resetCart}>Clear Cart</button>
+      )}
     </div>
   );
 }

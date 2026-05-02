@@ -10,4 +10,7 @@ export class User extends Model {
 
   @Column
   role!: string;
+
+  @Column
+  name?: string;
 }
