@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
   async up(queryInterface) {
-    // Seed admin user
+
     const hash = await bcrypt.hash("admin123", 10);
     await queryInterface.bulkInsert("Users", [{
       email: "admin@mail.com",
@@ -12,14 +12,14 @@ module.exports = {
       updatedAt: new Date(),
     }]);
 
-    // Seed categories
+ 
     await queryInterface.bulkInsert("Categories", [
       { name: "Burger", createdAt: new Date(), updatedAt: new Date() },
       { name: "Drink", createdAt: new Date(), updatedAt: new Date() },
       { name: "Dessert", createdAt: new Date(), updatedAt: new Date() },
     ]);
 
-    // Seed products
+    
     await queryInterface.bulkInsert("Products", [
       { name: "Big Mac", price: 45000, categoryId: 1, createdAt: new Date(), updatedAt: new Date() },
       { name: "McChicken", price: 35000, categoryId: 1, createdAt: new Date(), updatedAt: new Date() },

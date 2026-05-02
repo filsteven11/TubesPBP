@@ -13,7 +13,7 @@ export default function CartSidebar() {
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
-    return <div>Error: Cart context not available</div>;
+    return <div>Cart  not available</div>;
   }
 
   const { cart, removeFromCart, total, resetCart } = cartContext;

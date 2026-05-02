@@ -12,7 +12,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
-    return <div>Error: Cart context not available</div>;
+    return <div> Cart  not available</div>;
   }
 
   const { addToCart } = cartContext;

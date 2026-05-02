@@ -8,7 +8,7 @@ async function seedData() {
   try {
     await sequelize.sync();
 
-    // Seed admin user
+    
     const hash = await bcrypt.hash("admin123", 10);
     await User.create({
       email: "admin@mail.com",
@@ -16,12 +16,12 @@ async function seedData() {
       role: "admin",
     });
 
-    // Seed categories
+   
     const burgerCat = await Category.create({ name: "Burger" });
     const drinkCat = await Category.create({ name: "Drink" });
     const dessertCat = await Category.create({ name: "Dessert" });
 
-    // Seed products
+    
     await Product.create({ name: "Big Mac", price: 45000, categoryId: burgerCat.id });
     await Product.create({ name: "McChicken", price: 35000, categoryId: burgerCat.id });
     await Product.create({ name: "French Fries", price: 15000, categoryId: burgerCat.id });
@@ -30,9 +30,9 @@ async function seedData() {
     await Product.create({ name: "McFlurry", price: 18000, categoryId: dessertCat.id });
     await Product.create({ name: "Apple Pie", price: 10000, categoryId: dessertCat.id });
 
-    console.log("✅ Data seeded successfully!");
+    console.log(" Data seeded success!");
   } catch (error) {
-    console.error("❌ Error seeding data:", error);
+    console.error("Error seed data:", error);
   } finally {
     process.exit();
   }
